@@ -17,7 +17,7 @@ export default {
 };
 </script>
   
-<style>
+<style scoped>
 #movies-list {
     margin-left: 20%;
     margin-right: 20%;
@@ -25,6 +25,7 @@ export default {
     flex-wrap: wrap;
     justify-content: center;
     padding: 20px;
+    padding-top: 0;
 }
 </style>
   

@@ -39,7 +39,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 p {
   font-size: 12px;
 }
@@ -55,10 +55,10 @@ h3 {
 }
 
 .movie--card {
-  border: 1px solid rgb(63, 63, 63);
+  border: 2px solid #d44e00;
   width: 500px;
   height: 280px;
-  margin: 10px;
+  margin: 15px;
 }
 
 .movie--content {
@@ -66,7 +66,11 @@ h3 {
 }
 
 .movie--image {
+  margin: 0;
   margin-right: 15px;
+  border-right: 2px solid #d44e00;
+  width: 200px;
+  height: 280px;
 }
 
 .movie--information {
@@ -74,8 +78,9 @@ h3 {
 }
 
 .separator {
-  width: 100px;
-  border-bottom: 2px solid #333;
+  width: 75px;
+  border-bottom: 2px solid rgb(40, 40, 40);
+  ;
   margin-bottom: 20px;
 }
 
@@ -84,10 +89,11 @@ h3 {
 }
 
 .note {
-  font-size: 16px;
+  font-size: 15px;
   text-align: center;
   background-color: #d44e00;
-  border-radius: 100px;
+  border-radius: 20px;
+  padding: 5px;
   color: white;
 }
 

@@ -5,6 +5,7 @@
       <h1>Nos films</h1>
     </div>
     <movies-list :data_movies="data_movies" />
+    <movies-form @ajouter-film="ajouterFilm" />
     <app-footer />
   </div>
 </template>
@@ -13,6 +14,7 @@
 import Header from './components/AppHeader.vue';
 import Footer from './components/AppFooter.vue';
 import MoviesList from './components/MoviesList.vue';
+import MoviesForm from './components/MoviesForm.vue';
 import { onMounted, ref } from 'vue';
 import BDD from "../src/BDD";
 
@@ -21,9 +23,16 @@ export default {
   components: {
     'app-header': Header,
     'app-footer': Footer,
-    'movies-list': MoviesList
+    'movies-list': MoviesList,
+    'movies-form': MoviesForm
   },
   setup() {
+
+    const ajouterFilm = (nouveauFilm) => {
+      console.log('Ajouter film dans App :', nouveauFilm);
+      data_movies.value.push(nouveauFilm);
+    };
+
     class Movie {
       constructor(nom, date, temps, type, realisateur, acteur, note_presse, note_spectateurs, affiche, description) {
         this.nom = nom || '';
@@ -59,35 +68,49 @@ export default {
       }
     };
 
+
     onMounted(makeDataMovies);
 
     return {
-      data_movies
+      data_movies,
+      ajouterFilm
     };
   }
 };
 </script>
 
+
+
+
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@1,500&family=Quicksand:wght@300&family=Roboto:ital,wght@0,300;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@1,600&family=Raleway:wght@500&display=swap');
 
 #app {
   padding: 0;
   margin: 0;
   font-family: 'Quicksand', sans-serif;
+  color: rgb(40, 40, 40);
 }
 
 body {
   margin: 0;
 }
 
+.title {
+  font-size: 40px;
+  font-weight: bold;
+  font-family: 'Kanit', sans-serif;
+  text-transform: uppercase;
+  text-decoration: underline;
+  margin: 0;
+}
+
 h2 {
-  font-family: 'Mulish', sans-serif;
+  font-family: 'Raleway', sans-serif;
 }
 
 .title {
   text-align: center;
-  border-bottom: 2px rgb(48, 48, 48);
+  border-bottom: 2px rgb(40, 40, 40);
 }
-
 </style>

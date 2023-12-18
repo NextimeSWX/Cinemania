@@ -5,14 +5,14 @@
         <img :src="info_movie.affiche" :alt="info_movie.nom" width="200" height="280" />
       </div>
       <div class="movie-information">
-        <h2>{{ info_movie.nom || 'Titre non disponible' }}</h2>
+        <h2>{{ truncateText(info_movie.nom, 35) || 'Titre non disponible' }}</h2>
         <div class="separator"></div>
         <div class="bottom">
-          <p class="up">{{ info_movie.date || 'Date non disponible' }} / {{ info_movie.temps || 'Durée non disponible' }}
-            / {{ info_movie.type || 'Type non disponible' }}</p>
-          <p>De : {{ info_movie.realisateur || 'Réalisateur non disponible' }}</p>
-          <p>Avec : {{ info_movie.acteur || 'Acteur non disponible' }}</p>
-          <h3>{{ truncateText(info_movie.description, 150) || 'Titre non disponible' }}</h3>
+          <p class="up">{{ truncateText(info_movie.date, 25) || 'Date non disponible' }} / {{ info_movie.temps || 'Durée non disponible' }}
+            / {{ truncateText(info_movie.type, 25) || 'Type non disponible' }}</p>
+          <p>De : {{ truncateText(info_movie.realisateur, 40) || 'Réalisateur non disponible' }}</p>
+          <p>Avec : {{ truncateText(info_movie.acteur, 40) || 'Acteur non disponible' }}</p>
+          <h3>{{ truncateText(info_movie.description, 150) || 'Déscription non disponible' }}</h3>
           <h3 class="note">PRESSE : {{ info_movie.note_presse || 'N/A' }} | SPECTATEURS : {{ info_movie.note_spectateurs
             || 'N/A' }}
           </h3>
@@ -45,9 +45,10 @@ p {
 }
 
 h2 {
+  font-size: 20px;
   text-transform: uppercase;
   margin-bottom: 2px;
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
 h3 {
@@ -68,7 +69,7 @@ h3 {
 .movie--image {
   margin: 0;
   margin-right: 15px;
-  border-right: 2px solid #d44e00;
+  border-right: 1px solid #d44e00;
   width: 200px;
   height: 280px;
 }

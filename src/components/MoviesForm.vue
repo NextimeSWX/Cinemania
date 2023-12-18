@@ -2,96 +2,91 @@
   <div>
     <button @click="ouvrirModal">Ajouter un film</button>
     <div v-if="showModal">
-      <form @submit.prevent="ajouterFilm">
+      <form @submit.prevent="addMovie">
 
-        <label for="nom">Nom du film :</label>
-        <input id="nom" v-model="nouveauFilm.nom" required />
+        <label for="nom">Nom:</label>
+        <input v-model="newMovie.nom" required />
 
-        <label for="date">Date de sortie :</label>
-        <input id="date" v-model="nouveauFilm.date" required />
+        <label for="date">Date de sortie:</label>
+        <input v-model="newMovie.date" required />
 
-        <label for="temps">Durée :</label>
-        <input id="temps" v-model="nouveauFilm.temps" required />
+        <label for="temps">Durée:</label>
+        <input v-model="newMovie.temps" required />
 
-        <label for="type">Catégorie :</label>
-        <input id="type" v-model="nouveauFilm.type" required />
+        <label for="type">Catégorie:</label>
+        <input v-model="newMovie.type" required />
 
-        <label for="realisateur">Réalisateur :</label>
-        <input id="realisateur" v-model="nouveauFilm.realisateur" required />
+        <label for="realisateur">De:</label>
+        <input v-model="newMovie.realisateur" required />
 
-        <label for="acteur">Acteurs :</label>
-        <input id="acteur" v-model="nouveauFilm.acteur" required />
+        <label for="acteur">Avec:</label>
+        <input v-model="newMovie.acteur" required />
 
-        <label for="note_presse">Note presse :</label>
-        <input id="note_presse" v-model="nouveauFilm.note_presse" required />
+        <label for="note_presse">Note presse:</label>
+        <input v-model="newMovie.note_presse" required />
 
-        <label for="note_spectateurs">Note spectateurs :</label>
-        <input id="note_spectateurs" v-model="nouveauFilm.note_spectateurs" required />
+        <label for="note_spectateurs">Note spectateurs:</label>
+        <input v-model="newMovie.note_spectateurs" required />
 
-        <label for="affiche">Affiche :</label>
-        <input id="affiche" v-model="nouveauFilm.affiche" required />
+        <label for="affiche">Affiche:</label>
+        <input v-model="newMovie.affiche" required />
 
-        <label for="description">Description :</label>
-        <textarea id="description" v-model="nouveauFilm.description" required></textarea>
+        <label for="description">Description:</label>
+        <textarea v-model="newMovie.description" required></textarea>
 
 
         <button type="submit">Ajouter</button>
-        <button @click="fermerModal">Fermer</button>
       </form>
+      <button @click="fermerModal">Fermer</button>
     </div>
   </div>
 </template>
-
-
 
 <script>
 export default {
   data() {
     return {
       showModal: false,
-      nouveauFilm: {
+      newMovie: {
         nom: '',
         date: '',
         temps: '',
         type: '',
         realisateur: '',
         acteur: '',
-        note_presse: 0,
-        note_spectateurs: 0,
+        note_presse: '',
+        note_spectateurs: '',
         affiche: '',
         description: '',
       },
     };
   },
   methods: {
-
     ouvrirModal() {
       this.showModal = true;
     },
     fermerModal() {
       this.showModal = false;
-    },
-    ajouterFilm() {
-      this.$emit('ajouterFilm', this.nouveauFilm);
-      this.nouveauFilm = {
+      this.newMovie = {
         nom: '',
         date: '',
         temps: '',
         type: '',
         realisateur: '',
         acteur: '',
-        note_presse: 0,
-        note_spectateurs: 0,
+        note_presse: '',
+        note_spectateurs: '',
         affiche: '',
         description: '',
       };
-      this.showModal = false;
+    },
+    addMovie() {
+      this.$emit('add-movie', { ...this.newMovie });
+      this.fermerModal();
     },
   },
 };
 </script>
-  
 
-
-<style scoped></style>
-  
+<style scoped>
+</style>

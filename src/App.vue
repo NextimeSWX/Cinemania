@@ -4,8 +4,24 @@
     <div class="title">
       <h1>Nos films</h1>
     </div>
-    <movies-list :data_movies="data_movies" />
-    <movies-form @ajouter-film="ajouterFilm" />
+
+    <div class="button-add">
+      <movies-list :data_movies="data_movies" />
+      <movie-form @add-movie="addMovie" />
+    </div>
+
+    <div class="button-del">
+      <button @click="showDeleteSection = !showDeleteSection">Supprimer un film</button>
+
+      <div v-if="showDeleteSection">
+        <label for="movieName">Nom du film</label>
+        <select id="movieName" v-model="selectedMovieName">
+          <option v-for="movie in data_movies" :key="movie.nom" :value="movie.nom">{{ movie.nom }}</option>
+        </select>
+        <button type="submit" @click="deleteMovie">Supprimer</button>
+      </div>
+    </div>
+
     <app-footer />
   </div>
 </template>
@@ -14,7 +30,8 @@
 import Header from './components/AppHeader.vue';
 import Footer from './components/AppFooter.vue';
 import MoviesList from './components/MoviesList.vue';
-import MoviesForm from './components/MoviesForm.vue';
+import MovieForm from './components/MoviesForm.vue';
+import LocalStorageService from "../src/services/LocalStorageService";
 import { onMounted, ref } from 'vue';
 import BDD from "../src/BDD";
 
@@ -24,15 +41,9 @@ export default {
     'app-header': Header,
     'app-footer': Footer,
     'movies-list': MoviesList,
-    'movies-form': MoviesForm
+    'movie-form': MovieForm,
   },
   setup() {
-
-    const ajouterFilm = (nouveauFilm) => {
-      console.log('Ajouter film dans App :', nouveauFilm);
-      data_movies.value.push(nouveauFilm);
-    };
-
     class Movie {
       constructor(nom, date, temps, type, realisateur, acteur, note_presse, note_spectateurs, affiche, description) {
         this.nom = nom || '';
@@ -48,69 +59,78 @@ export default {
       }
     }
 
-    let data_movies = ref([]);
+    let data_movies = ref(LocalStorageService.getData());
+    let selectedMovieName = ref('');
+    let showDeleteSection = ref(false);
 
     const makeDataMovies = () => {
-      for (const movie of BDD) {
-        const new_movie = new Movie(
-          movie.nom || '',
-          movie.date,
-          movie.temps,
-          movie.type,
-          movie.realisateur,
-          movie.acteur,
-          movie.note_presse,
-          movie.note_spectateurs,
-          movie.affiche,
-          movie.description
-        );
-        data_movies.value.push(new_movie);
+      const storedData = LocalStorageService.getData();
+
+      if (storedData && storedData.length > 0) {
+        data_movies.value = storedData;
+      } else {
+        data_movies.value = [];
+
+        for (const movie of BDD) {
+          const new_movie = new Movie(
+            movie.nom || '',
+            movie.date,
+            movie.temps,
+            movie.type,
+            movie.realisateur,
+            movie.acteur,
+            movie.note_presse,
+            movie.note_spectateurs,
+            movie.affiche,
+            movie.description
+          );
+          data_movies.value.push(new_movie);
+        }
+        LocalStorageService.setData(data_movies.value);
       }
     };
 
+    const addMovie = (newMovie) => {
+      const new_movie = new Movie(
+        newMovie.nom || '',
+        newMovie.date,
+        newMovie.temps,
+        newMovie.type,
+        newMovie.realisateur,
+        newMovie.acteur,
+        newMovie.note_presse,
+        newMovie.note_spectateurs,
+        newMovie.affiche,
+        newMovie.description
+      );
+      data_movies.value.push(new_movie);
+      LocalStorageService.setData(data_movies.value);
+    };
+
+    const deleteMovie = () => {
+      const movieToRemove = data_movies.value.find(movie => movie.nom === selectedMovieName.value);
+
+      if (movieToRemove) {
+        const updatedMovies = data_movies.value.filter(movie => movie.nom !== selectedMovieName.value);
+        LocalStorageService.setData(updatedMovies);
+        data_movies.value = updatedMovies;
+        console.log("Film supprimé :", selectedMovieName.value);
+      } else {
+        console.error("Film non trouvé :", selectedMovieName.value);
+      }
+    };
 
     onMounted(makeDataMovies);
 
     return {
       data_movies,
-      ajouterFilm
+      addMovie,
+      selectedMovieName,
+      showDeleteSection,
+      deleteMovie,
     };
   }
 };
 </script>
 
-
-
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@1,600&family=Raleway:wght@500&display=swap');
-
-#app {
-  padding: 0;
-  margin: 0;
-  font-family: 'Quicksand', sans-serif;
-  color: rgb(40, 40, 40);
-}
-
-body {
-  margin: 0;
-}
-
-.title {
-  font-size: 40px;
-  font-weight: bold;
-  font-family: 'Kanit', sans-serif;
-  text-transform: uppercase;
-  text-decoration: underline;
-  margin: 0;
-}
-
-h2 {
-  font-family: 'Raleway', sans-serif;
-}
-
-.title {
-  text-align: center;
-  border-bottom: 2px rgb(40, 40, 40);
-}
-</style>
+<style></style>

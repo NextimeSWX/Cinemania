@@ -15,6 +15,7 @@ export default {
         data_movies: Array,
     },
 };
+
 </script>
   
 <style scoped>

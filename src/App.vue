@@ -5,20 +5,27 @@
       <h1>Nos films</h1>
     </div>
 
-    <div class="button-add">
-      <movies-list :data_movies="data_movies" />
-      <movie-form @add-movie="addMovie" />
-    </div>
+    <movies-list :data_movies="filteredMovies" />
 
-    <div class="button-del">
-      <button @click="showDeleteSection = !showDeleteSection">Supprimer un film</button>
+    <div class="bottom">
+      <form @submit.prevent="searchMovies">
+        <input v-model="searchbar" type="text" id="searchbar" placeholder="Rechercher un film...">
+      </form>
 
-      <div v-if="showDeleteSection">
-        <label for="movieName">Nom du film</label>
-        <select id="movieName" v-model="selectedMovieName">
-          <option v-for="movie in data_movies" :key="movie.nom" :value="movie.nom">{{ movie.nom }}</option>
-        </select>
-        <button type="submit" @click="deleteMovie">Supprimer</button>
+      <div class="button-add">
+        <movie-form @add-movie="addMovie" />
+      </div>
+
+      <div class="button-del">
+        <button @click="showDeleteSection = !showDeleteSection">Supprimer un film</button>
+
+        <div v-if="showDeleteSection">
+          <label for="movieName">Nom du film</label>
+          <select id="movieName" v-model="selectedMovieName">
+            <option v-for="movie in data_movies" :key="movie.nom" :value="movie.nom">{{ movie.nom }}</option>
+          </select>
+          <button type="button" @click="deleteMovie">Supprimer</button>
+        </div>
       </div>
     </div>
 
@@ -32,7 +39,7 @@ import Footer from './components/AppFooter.vue';
 import MoviesList from './components/MoviesList.vue';
 import MovieForm from './components/MoviesForm.vue';
 import LocalStorageService from "../src/services/LocalStorageService";
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch, watchEffect } from 'vue';
 import BDD from "../src/BDD";
 
 export default {
@@ -43,6 +50,7 @@ export default {
     'movies-list': MoviesList,
     'movie-form': MovieForm,
   },
+
   setup() {
     class Movie {
       constructor(nom, date, temps, type, realisateur, acteur, note_presse, note_spectateurs, affiche, description) {
@@ -59,36 +67,63 @@ export default {
       }
     }
 
-    let data_movies = ref(LocalStorageService.getData());
-    let selectedMovieName = ref('');
-    let showDeleteSection = ref(false);
+    const data_movies = ref([]);
+    const selectedMovieName = ref('');
+    const showDeleteSection = ref(false);
+    const searchbar = ref('');
+
+    onMounted(() => {
+      makeDataMovies();
+    });
 
     const makeDataMovies = () => {
       const storedData = LocalStorageService.getData();
 
-      if (storedData && storedData.length > 0) {
-        data_movies.value = storedData;
-      } else {
-        data_movies.value = [];
 
-        for (const movie of BDD) {
-          const new_movie = new Movie(
-            movie.nom || '',
-            movie.date,
-            movie.temps,
-            movie.type,
-            movie.realisateur,
-            movie.acteur,
-            movie.note_presse,
-            movie.note_spectateurs,
-            movie.affiche,
-            movie.description
-          );
-          data_movies.value.push(new_movie);
-        }
-        LocalStorageService.setData(data_movies.value);
+
+
+      watch(searchbar, (newValue) => {
+        console.log('searchbar changed:', newValue);
+        makeDataMovies(); // Appeler makeDataMovies à chaque changement de searchbar
+      });
+
+      watchEffect(() => {
+        console.log('searchbar length:', searchbar.value.length);
+      });
+
+
+
+
+      
+      if (storedData && storedData.length > 0) {
+      if (searchbar.value.length > 0) {
+        // Filtrer les données en fonction de la barre de recherche
+        data_movies.value = storedData.filter(movie => movie.nom.toLowerCase().includes(searchbar.value.toLowerCase()));
+      } else {
+        // Si la barre de recherche est vide, trier par nom
+        data_movies.value = storedData.sort((a, b) => a.nom.localeCompare(b.nom));
       }
-    };
+    } else {
+      data_movies.value = [];
+
+      for (const movie of BDD) {
+        const new_movie = new Movie(
+          movie.nom || '',
+          movie.date,
+          movie.temps,
+          movie.type,
+          movie.realisateur,
+          movie.acteur,
+          movie.note_presse,
+          movie.note_spectateurs,
+          movie.affiche,
+          movie.description
+        );
+        data_movies.value.push(new_movie);
+      }
+      LocalStorageService.setData(data_movies.value);
+    }
+  };
 
     const addMovie = (newMovie) => {
       const new_movie = new Movie(
@@ -120,14 +155,24 @@ export default {
       }
     };
 
+    const filteredMovies = ref([]);
+
+    const searchMovies = () => {
+      // Filtrer les données en fonction de la barre de recherche
+      filteredMovies.value = data_movies.value.filter(movie => movie.nom.toLowerCase().includes(searchbar.value.toLowerCase()));
+    };
+
     onMounted(makeDataMovies);
 
     return {
       data_movies,
-      addMovie,
-      selectedMovieName,
-      showDeleteSection,
-      deleteMovie,
+    addMovie,
+    selectedMovieName,
+    showDeleteSection,
+    deleteMovie,
+    searchbar,
+    filteredMovies,
+    searchMovies,
     };
   }
 };

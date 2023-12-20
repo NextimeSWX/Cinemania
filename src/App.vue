@@ -1,35 +1,50 @@
 <template>
   <div id="app">
+
     <app-header />
-    <div class="title">
-      <h1>Nos films</h1>
-    </div>
 
-    <movies-list :data_movies="data_movies" />
+    <button @click="OpenModalList">Ouvrir la modal</button>
+    <div class="modal" v-if="showModal">
+      <div class="modal-content">
+        <slot>
 
-    <div class="bottom">
-      <input v-model="searchbar" type="text" placeholder="Rechercher un film...">
+          <div class="title">
+            <h1>Nos films</h1>
+          </div>
 
-      <button @click="resetStorage">Reset</button>
+          <movies-list :data_movies="data_movies" @openAffiche="OpenAffiche"/>
 
-      <div class="button-add">
-        <movie-form @add-movie="addMovie" />
-      </div>
+          <button @click="resetStorage">Reset</button>
 
-      <div class="button-del">
-        <button @click="showDeleteSection = !showDeleteSection">Supprimer un film</button>
+          <div class="bottom">
+            <input class="searchbar" v-model="searchbar" type="text" placeholder="Rechercher un film...">
+            <div class="button-add">
+              <movie-form @add-movie="addMovie" />
+            </div>
+            <div class="button-del">
+              <button @click="showDeleteSection = !showDeleteSection">Supprimer un film</button>
+              <div v-if="showDeleteSection">
+                <label for="movieName">Nom du film</label>
+                <select id="movieName" v-model="selectedMovieName">
+                  <option v-for="movie in data_movies" :key="movie.nom" :value="movie.nom">{{ movie.nom }}</option>
+                </select>
+                <button type="button" @click="deleteMovie">Supprimer</button>
+              </div>
+            </div>
+          </div>
+        </slot>
 
-        <div v-if="showDeleteSection">
-          <label for="movieName">Nom du film</label>
-          <select id="movieName" v-model="selectedMovieName">
-            <option v-for="movie in data_movies" :key="movie.nom" :value="movie.nom">{{ movie.nom }}</option>
-          </select>
-          <button type="button" @click="deleteMovie">Supprimer</button>
-        </div>
+        <!-- <div class="modal" v-if="showModal">
+          <div class="modal-content"> -->
+            <movie-poster :moviesPoster="data_movies"/>
+          <!-- </div>
+        </div> -->
+
       </div>
     </div>
 
     <app-footer />
+
   </div>
 </template>
 
@@ -40,6 +55,7 @@ import Header from './components/AppHeader.vue';
 import Footer from './components/AppFooter.vue';
 import MoviesList from './components/MoviesList.vue';
 import MovieForm from './components/MoviesForm.vue';
+import MoviePoster from './components/MoviesPoster.vue';
 import LocalStorageService from "../src/services/LocalStorageService";
 import { onMounted, ref, watch } from 'vue';
 import BDD from "../src/BDD";
@@ -51,6 +67,7 @@ export default {
     'app-footer': Footer,
     'movies-list': MoviesList,
     'movie-form': MovieForm,
+    'movie-poster': MoviePoster,
   },
 
   setup() {
@@ -73,6 +90,8 @@ export default {
     const selectedMovieName = ref('');
     const showDeleteSection = ref(false);
     const searchbar = ref('');
+    const showModal = ref(true);
+
 
     onMounted(() => {
       makeDataMovies();
@@ -148,6 +167,15 @@ export default {
       }
     };
 
+    const OpenModalList = () => {
+      showModal.value = true;
+    };
+
+    const OpenAffiche = (data_moviePoster) => {
+      showModal.value = false;
+      console.log(data_moviePoster.nom);
+    };
+
     const resetStorage = () => {
       const confirmation = window.confirm("Êtes-vous sûr de vouloir réinitialiser le stockage ?");
 
@@ -162,19 +190,23 @@ export default {
 
     const handleSearchbarChange = () => {
       makeDataMovies();
-    }
+    };
 
     watch(searchbar, handleSearchbarChange);
 
     return {
       data_movies,
-      addMovie,
-      selectedMovieName,
-      showDeleteSection,
-      deleteMovie,
-      searchbar,
-      resetStorage,
-    }
+    addMovie,
+    selectedMovieName,
+    showDeleteSection,
+    deleteMovie,
+    searchbar,
+    resetStorage,
+    showModal,
+    OpenModalList,
+    OpenAffiche,
+
+    };
   }
 }
 
@@ -183,4 +215,43 @@ export default {
 
 
 
-<style></style>
+<style scoped>
+* {
+  background-color: rgb(44, 44, 44);
+
+}
+
+h1 {
+  font-family: 'Kanit', sans-serif;
+  text-transform: uppercase;
+  font-size: 40px;
+  text-decoration: underline;
+  color: white;
+}
+
+.title {
+  text-align: center;
+
+}
+
+.bottom {
+  display: flex;
+  justify-content: center;
+  padding: 50px;
+}
+
+.searchbar {
+  padding: 5px;
+  border: solid 1px rgb(255, 255, 255);
+  background-color: #d44e00;
+  color: white;
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
+  margin-right: 5px;
+}
+
+.searchbar:hover {
+  border: solid 3px rgb(255, 255, 255);
+  transition: 1s;
+}
+</style>

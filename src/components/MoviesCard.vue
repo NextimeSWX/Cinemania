@@ -5,7 +5,8 @@
         <img :src="info_movie.affiche" :alt="info_movie.nom" width="200" height="280" />
       </div>
       <div class="movie-information">
-        <h2>{{ truncateText(info_movie.nom, 35) || 'Titre non disponible' }}</h2>
+        <h2 @click="$emit('openAffiche', info_movie)">{{ truncateText(info_movie.nom, 35) || 'Titre non disponible' }}</h2>
+
         <div class="separator"></div>
         <div class="bottom">
           <p class="up">{{ truncateText(info_movie.date, 25) || 'Date non disponible' }} / {{ info_movie.temps || 'Durée non disponible' }}
@@ -49,6 +50,7 @@ h2 {
   text-transform: uppercase;
   margin-bottom: 2px;
   margin-top: 10px;
+  font-family: 'Raleway', sans-serif;
 }
 
 h3 {
@@ -57,6 +59,7 @@ h3 {
 
 .movie--card {
   border: 2px solid #d44e00;
+  background-color: white;
   width: 500px;
   height: 280px;
   margin: 15px;

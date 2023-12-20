@@ -13,6 +13,7 @@ export default {
     },
     props: {
         data_movies: Array,
+        default: () => [],
     },
 };
 
@@ -20,12 +21,11 @@ export default {
   
 <style scoped>
 #movies-list {
-    margin-left: 20%;
-    margin-right: 20%;
+    margin-left: 5%;
+    margin-right: 5%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding: 20px;
     padding-top: 0;
 }
 </style>

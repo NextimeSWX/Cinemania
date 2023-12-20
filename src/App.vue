@@ -5,12 +5,12 @@
       <h1>Nos films</h1>
     </div>
 
-    <movies-list :data_movies="filteredMovies" />
+    <movies-list :data_movies="data_movies" />
 
     <div class="bottom">
-      <form @submit.prevent="searchMovies">
-        <input v-model="searchbar" type="text" id="searchbar" placeholder="Rechercher un film...">
-      </form>
+      <input v-model="searchbar" type="text" placeholder="Rechercher un film...">
+
+      <button @click="resetStorage">Reset</button>
 
       <div class="button-add">
         <movie-form @add-movie="addMovie" />
@@ -33,13 +33,15 @@
   </div>
 </template>
 
+
+
 <script>
 import Header from './components/AppHeader.vue';
 import Footer from './components/AppFooter.vue';
 import MoviesList from './components/MoviesList.vue';
 import MovieForm from './components/MoviesForm.vue';
 import LocalStorageService from "../src/services/LocalStorageService";
-import { onMounted, ref, watch, watchEffect } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import BDD from "../src/BDD";
 
 export default {
@@ -74,56 +76,41 @@ export default {
 
     onMounted(() => {
       makeDataMovies();
-    });
+    })
 
     const makeDataMovies = () => {
       const storedData = LocalStorageService.getData();
 
+      if (!storedData || storedData.length === 0) {
+        data_movies.value = [];
 
+        for (const movie of BDD) {
+          const new_movie = new Movie(
+            movie.nom || '',
+            movie.date,
+            movie.temps,
+            movie.type,
+            movie.realisateur,
+            movie.acteur,
+            movie.note_presse,
+            movie.note_spectateurs,
+            movie.affiche,
+            movie.description
+          );
+          data_movies.value.push(new_movie);
+        }
+        LocalStorageService.setData(data_movies.value);
+        return;
+      }
 
-
-      watch(searchbar, (newValue) => {
-        console.log('searchbar changed:', newValue);
-        makeDataMovies(); // Appeler makeDataMovies à chaque changement de searchbar
-      });
-
-      watchEffect(() => {
-        console.log('searchbar length:', searchbar.value.length);
-      });
-
-
-
-
-      
-      if (storedData && storedData.length > 0) {
       if (searchbar.value.length > 0) {
-        // Filtrer les données en fonction de la barre de recherche
-        data_movies.value = storedData.filter(movie => movie.nom.toLowerCase().includes(searchbar.value.toLowerCase()));
+        console.log("B");
+        data_movies.value = storedData.filter(movie => movie.nom && movie.nom.toLowerCase().includes(searchbar.value.toLowerCase()));
       } else {
-        // Si la barre de recherche est vide, trier par nom
-        data_movies.value = storedData.sort((a, b) => a.nom.localeCompare(b.nom));
+        console.log("A");
+        data_movies.value = storedData.sort((a, b) => (a.nom && b.nom) ? a.nom.localeCompare(b.nom) : 0);
       }
-    } else {
-      data_movies.value = [];
-
-      for (const movie of BDD) {
-        const new_movie = new Movie(
-          movie.nom || '',
-          movie.date,
-          movie.temps,
-          movie.type,
-          movie.realisateur,
-          movie.acteur,
-          movie.note_presse,
-          movie.note_spectateurs,
-          movie.affiche,
-          movie.description
-        );
-        data_movies.value.push(new_movie);
-      }
-      LocalStorageService.setData(data_movies.value);
     }
-  };
 
     const addMovie = (newMovie) => {
       const new_movie = new Movie(
@@ -137,45 +124,63 @@ export default {
         newMovie.note_spectateurs,
         newMovie.affiche,
         newMovie.description
-      );
+      )
       data_movies.value.push(new_movie);
       LocalStorageService.setData(data_movies.value);
-    };
+    }
 
     const deleteMovie = () => {
       const movieToRemove = data_movies.value.find(movie => movie.nom === selectedMovieName.value);
 
       if (movieToRemove) {
-        const updatedMovies = data_movies.value.filter(movie => movie.nom !== selectedMovieName.value);
-        LocalStorageService.setData(updatedMovies);
-        data_movies.value = updatedMovies;
-        console.log("Film supprimé :", selectedMovieName.value);
+        const confirmation = window.confirm("Êtes-vous sûr de vouloir supprimer ce film ?");
+
+        if (confirmation) {
+          const updatedMovies = data_movies.value.filter(movie => movie.nom !== selectedMovieName.value);
+          LocalStorageService.setData(updatedMovies);
+          data_movies.value = updatedMovies;
+          console.log("Film supprimé :", selectedMovieName.value);
+        } else {
+          console.log("Suppression annulée");
+        }
       } else {
         console.error("Film non trouvé :", selectedMovieName.value);
       }
     };
 
-    const filteredMovies = ref([]);
+    const resetStorage = () => {
+      const confirmation = window.confirm("Êtes-vous sûr de vouloir réinitialiser le stockage ?");
 
-    const searchMovies = () => {
-      // Filtrer les données en fonction de la barre de recherche
-      filteredMovies.value = data_movies.value.filter(movie => movie.nom.toLowerCase().includes(searchbar.value.toLowerCase()));
+      if (confirmation) {
+        LocalStorageService.resetStorage();
+        data_movies.value = [];
+        console.log("Stockage réinitialisé");
+      } else {
+        console.log("Réinitialisation annulée");
+      }
     };
 
-    onMounted(makeDataMovies);
+    const handleSearchbarChange = () => {
+      makeDataMovies();
+    }
+
+    watch(searchbar, handleSearchbarChange);
 
     return {
       data_movies,
-    addMovie,
-    selectedMovieName,
-    showDeleteSection,
-    deleteMovie,
-    searchbar,
-    filteredMovies,
-    searchMovies,
-    };
+      addMovie,
+      selectedMovieName,
+      showDeleteSection,
+      deleteMovie,
+      searchbar,
+      resetStorage,
+    }
   }
-};
+}
+
 </script>
+
+
+
 
 <style></style>

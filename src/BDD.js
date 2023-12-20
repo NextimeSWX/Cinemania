@@ -8,7 +8,7 @@ const movies = [
         acteur: 'Sam Worthington, Zoe Saldana, Sigourney Weaver',
         note_presse: 4.3,
         note_spectateurs: 4.6,
-        affiche : 'https://fr.web.img2.acsta.net/c_310_420/pictures/22/08/25/09/04/2146702.jpg',
+        affiche: 'https://fr.web.img2.acsta.net/c_310_420/pictures/22/08/25/09/04/2146702.jpg',
         description: `Malgré sa paralysie, Jake Sully, un ancien marine immobilisé dans un fauteuil roulant, est resté un combattant au plus profond de son être. 
         Il est recruté pour se rendre à des années-lumière de la Terre, sur Pandora, où de puissants groupes industriels exploitent un minerai rarissime destiné à résoudre la crise énergétique sur Terre. 
         Parce que l'atmosphère de Pandora est toxique pour les humains, ceux-ci ont créé le Programme Avatar, qui permet à des "pilotes" humains de lier leur esprit à un avatar, un corps biologique commandé à distance, capable de survivre dans cette atmosphère létale. 
@@ -120,7 +120,7 @@ const movies = [
         affiche: 'https://fr.web.img6.acsta.net/c_310_420/pictures/22/01/14/08/39/1848157.jpg',
         description: 'Le patriarche vieillissant d\'une dynastie criminelle transfère le contrôle de son empire clandestin à son fils relutant.'
     },
-    
+
     {
         nom: 'Harry Potter',
         date: '10 novembre 2001',
@@ -133,7 +133,7 @@ const movies = [
         affiche: 'https://fr.web.img6.acsta.net/c_310_420/pictures/18/07/02/17/25/3643090.jpg',
         description: 'Un jeune sorcier découvre sa véritable identité tout en s\'aventurant dans le monde magique.'
     },
-    
+
     {
         nom: 'Interstellar',
         date: '5 novembre 2014',
@@ -146,7 +146,7 @@ const movies = [
         affiche: 'https://fr.web.img5.acsta.net/c_310_420/pictures/14/09/24/12/08/158828.jpg',
         description: 'Un groupe d\'explorateurs spatiaux voyage à travers un trou de ver pour garantir la survie de l\'humanité sur une nouvelle planète.'
     },
-    
+
     {
         nom: 'Shutter Island',
         date: '24 février 2010',
@@ -159,7 +159,7 @@ const movies = [
         affiche: 'https://fr.web.img2.acsta.net/c_310_420/medias/nmedia/18/69/96/84/19151192.jpg',
         description: 'Deux marshals enquêtent sur la mystérieuse disparition d\'une prisonnière d\'un hôpital psychiatrique.'
     },
-    
+
     {
         nom: 'Ecrire pour Exister',
         date: '20 avril 2007',
@@ -184,6 +184,176 @@ const movies = [
         note_spectateurs: 4.8,
         affiche: 'https://fr.web.img2.acsta.net/c_310_420/pictures/20/07/21/16/53/1319265.jpg',
         description: 'Un parc d\'attractions de dinosaures échappe à tout contrôle lorsque les créatures préhistoriques sont libérées.'
-    }
+    },
+
+    {
+        nom: 'Star Wars: Épisode IV - Un nouvel espoir',
+        date: '25 mai 1977',
+        temps: '2h 01min',
+        type: 'Action, Aventure, Fantaisie',
+        realisateur: 'George Lucas',
+        acteur: 'Mark Hamill, Harrison Ford, Carrie Fisher',
+        note_presse: 4.7,
+        note_spectateurs: 4.8,
+        affiche: 'https://fr.web.img5.acsta.net/c_310_420/medias/nmedia/18/35/41/59/18422600.jpg',
+        description: `Luke Skywalker rejoint les forces de la Rébellion pour lutter contre l'Empire maléfique, dirigé par le sinistre Dark Vador.`,
+    },
+
+    {
+        nom: 'Transformers',
+        date: '3 juillet 2007',
+        temps: '2h 24min',
+        type: 'Action, Aventure, Science Fiction',
+        realisateur: 'Michael Bay',
+        acteur: 'Shia LaBeouf, Megan Fox, Josh Duhamel',
+        note_presse: 3.6,
+        note_spectateurs: 4.0,
+        affiche: 'https://fr.web.img6.acsta.net/c_310_420/medias/nmedia/18/62/81/09/18784915.jpg',
+        description: `Des robots extraterrestres, les Autobots, cherchent à sauver la Terre des maléfiques Decepticons dans cette aventure pleine d'action.`,
+    },
+
+    {
+        nom: 'Spider-Man: Homecoming',
+        date: '12 juillet 2017',
+        temps: '2h 13min',
+        type: 'Action, Aventure, Sci-Fi',
+        realisateur: 'Jon Watts',
+        acteur: 'Tom Holland, Michael Keaton, Robert Downey Jr.',
+        note_presse: 3.9,
+        note_spectateurs: 4.0,
+        affiche: 'https://fr.web.img6.acsta.net/c_310_420/pictures/17/05/24/15/35/100661.jpg',
+        description: `Peter Parker tente de concilier sa vie de lycéen avec celle de Spider-Man tout en faisant face au redoutable Vautour.`,
+    },
+
+    {
+        nom: 'Avengers: Infinity War',
+        date: '25 avril 2018',
+        temps: '2h 29min',
+        type: 'Action, Aventure, Sci-Fi',
+        realisateur: 'Joe Russo, Anthony Russo',
+        acteur: 'Robert Downey Jr., Chris Hemsworth, Mark Ruffalo',
+        note_presse: 4.2,
+        note_spectateurs: 4.3,
+        affiche: 'https://fr.web.img3.acsta.net/c_310_420/pictures/18/03/16/14/42/0611719.jpg',
+        description: `Les Avengers et leurs alliés tentent de stopper le puissant Thanos dans sa quête pour obtenir les six Pierres d'Infinité.`,
+    },
+
+    {
+        nom: 'Le Roi Lion (2019)',
+        date: '17 juillet 2019',
+        temps: '1h 58min',
+        type: 'Aventure, Drame, Animation',
+        realisateur: 'Jon Favreau',
+        acteur: 'Donald Glover, Beyoncé, James Earl Jones',
+        note_presse: 3.8,
+        note_spectateurs: 4.1,
+        affiche: 'https://fr.web.img6.acsta.net/c_310_420/pictures/19/02/25/12/06/2908996.jpg',
+        description: `Une version live-action du classique Disney qui suit le voyage épique de Simba, un jeune lion, pour devenir le roi de la Terre des Lions.`,
+    },
+
+    {
+        nom: 'La Liste de Schindler',
+        date: '17 février 1994',
+        temps: '3h 15min',
+        type: 'Biographie, Drame, Histoire',
+        realisateur: 'Steven Spielberg',
+        acteur: 'Liam Neeson, Ben Kingsley, Ralph Fiennes',
+        note_presse: 4.6,
+        note_spectateurs: 4.8,
+        affiche: 'https://fr.web.img4.acsta.net/c_310_420/pictures/19/03/14/10/37/5927961.jpg',
+        description: `L'histoire vraie d'Oskar Schindler, un homme d'affaires allemand qui a sauvé plus de mille vies pendant l'Holocauste.`,
+    },
+
+    {
+        nom: 'Inception',
+        date: '21 juillet 2010',
+        temps: '2h 28min',
+        type: 'Action, Aventure, Sci-Fi',
+        realisateur: 'Christopher Nolan',
+        acteur: 'Leonardo DiCaprio, Joseph Gordon-Levitt, Ellen Page',
+        note_presse: 4.4,
+        note_spectateurs: 4.3,
+        affiche: 'https://fr.web.img6.acsta.net/c_310_420/medias/nmedia/18/72/34/14/19476654.jpg',
+        description: `Dom Cobb, un voleur expérimenté, est capable d'entrer dans les rêves des autres pour voler leurs secrets les plus précieux. Alors qu'il planifie son dernier vol, Cobb doit naviguer à travers un labyrinthe de réalités oniriques et résoudre l'intrigue complexe de l'inception.`,
+    },
+
+    {
+        nom: 'Titanic',
+        date: '7 janvier 1998',
+        temps: '3h 14min',
+        type: 'Drame, Romance',
+        realisateur: 'James Cameron',
+        acteur: 'Leonardo DiCaprio, Kate Winslet, Billy Zane',
+        note_presse: 4.5,
+        note_spectateurs: 4.7,
+        affiche: 'https://fr.web.img6.acsta.net/c_310_420/pictures/23/01/10/16/06/0622119.jpg',
+        description: `Une histoire épique et romantique se déroulant sur le Titanic, mettant en vedette un amour tragique entre Jack et Rose, deux personnes de classes sociales différentes.`,
+    },
+
+    {
+        nom: 'Matrix',
+        date: '16 juin 1999',
+        temps: '2h 16min',
+        type: 'Action, Sci-Fi',
+        realisateur: 'Lana Wachowski, Lilly Wachowski',
+        acteur: 'Keanu Reeves, Laurence Fishburne, Carrie-Anne Moss',
+        note_presse: 4.3,
+        note_spectateurs: 4.3,
+        affiche: 'https://fr.web.img4.acsta.net/c_310_420/medias/04/34/49/043449_af.jpg',
+        description: `Un pirate informatique découvre que la réalité qu'il connaît n'est qu'une simulation informatique sophistiquée contrôlée par des machines. Il se joint à une rébellion pour combattre l'oppression des machines et libérer l'humanité.`,
+    },
+
+    {
+        nom: 'Pulp Fiction',
+        date: '26 octobre 1994',
+        temps: '2h 34min',
+        type: 'Crime, Drame',
+        realisateur: 'Quentin Tarantino',
+        acteur: 'John Travolta, Uma Thurman, Samuel L. Jackson',
+        note_presse: 4.6,
+        note_spectateurs: 4.5,
+        affiche: 'https://fr.web.img2.acsta.net/c_310_420/medias/nmedia/18/36/02/52/18846059.jpg',
+        description: `Une série d'histoires entrelacées impliquant des criminels, des drogues et des mystères à Los Angeles. Le film offre un regard non linéaire sur des événements connectés et des personnages mémorables.`,
+    },
+
+    {
+        nom: 'The Dark Knight',
+        date: '13 août 2008',
+        temps: '2h 32min',
+        type: 'Action, Crime, Drama',
+        realisateur: 'Christopher Nolan',
+        acteur: 'Christian Bale, Heath Ledger, Aaron Eckhart',
+        note_presse: 4.4,
+        note_spectateurs: 4.4,
+        affiche: 'https://fr.web.img6.acsta.net/c_310_420/medias/nmedia/18/63/97/89/18949761.jpg',
+        description: `Batman s'attaque au criminel Joker qui provoque le chaos à Gotham City. Le film explore la dualité entre le justicier masqué et le Joker anarchique.`,
+    },
+
+    {
+        nom: 'Fight Club',
+        date: '10 novembre 1999',
+        temps: '2h 19min',
+        type: 'Drame',
+        realisateur: 'David Fincher',
+        acteur: 'Brad Pitt, Edward Norton, Helena Bonham Carter',
+        note_presse: 4.5,
+        note_spectateurs: 4.5,
+        affiche: 'https://fr.web.img6.acsta.net/c_310_420/pictures/19/04/08/14/11/0688770.jpg',
+        description: `Un employé de bureau découvre un monde souterrain secret de combats violents dirigé par un mystérieux homme charismatique. Le film aborde des thèmes tels que la société de consommation et l'aliénation.`,
+    },
+
+    {
+        nom: 'The Lord of the Rings: The Fellowship of the Ring',
+        date: '19 décembre 2001',
+        temps: '2h 58min',
+        type: 'Action, Aventure, Drame',
+        realisateur: 'Peter Jackson',
+        acteur: 'Elijah Wood, Ian McKellen, Orlando Bloom',
+        note_presse: 4.7,
+        note_spectateurs: 4.8,
+        affiche: 'https://fr.web.img5.acsta.net/c_310_420/medias/nmedia/00/02/16/27/69218096_af.jpg',
+        description: `Un jeune hobbit est chargé de détruire un anneau maléfique tandis qu'une communauté hétéroclite se forme pour le protéger. Basé sur l'œuvre épique de J.R.R. Tolkien, le film offre une aventure fantastique épique.`,
+    },
+
 ]
 module.exports = movies;

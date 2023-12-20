@@ -14,5 +14,10 @@ export default {
         const currentData = this.getData();
         const updatedData = currentData.filter(movie => movie.nom !== movieToRemove.nom);
         this.setData(updatedData);
-    }
+    },
+
+    resetStorage() {
+        localStorage.removeItem(localStorageKey);
+    },
+
 };

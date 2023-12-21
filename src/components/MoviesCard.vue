@@ -1,15 +1,18 @@
 <template>
-  <div class="movie--card" v-if="info_movie">
+  <div class="movie--card" v-if="info_movie" @click="$emit('openAffiche', info_movie)">
     <div class="movie--content">
       <div class="movie--image">
-        <img :src="info_movie.affiche" :alt="info_movie.nom" width="200" height="280" />
+        <img @click="$emit('openAffiche', info_movie)" :src="info_movie.affiche" :alt="info_movie.nom" width="200"
+          height="280" />
       </div>
+
       <div class="movie-information">
-        <h2 @click="$emit('openAffiche', info_movie)">{{ truncateText(info_movie.nom, 35) || 'Titre non disponible' }}</h2>
+        <h2>{{ truncateText(info_movie.nom, 35) || 'Titre non disponible' }}</h2>
 
         <div class="separator"></div>
+
         <div class="bottom">
-          <p class="up">{{ truncateText(info_movie.date, 25) || 'Date non disponible' }} / {{ info_movie.temps || 'Durée non disponible' }}
+          <p class="up">{{ truncateText(info_movie.date, 25) || 'Date non disponible' }} / {{ info_movie.temps || 'Durée                      non disponible' }}
             / {{ truncateText(info_movie.type, 25) || 'Type non disponible' }}</p>
           <p>De : {{ truncateText(info_movie.realisateur, 40) || 'Réalisateur non disponible' }}</p>
           <p>Avec : {{ truncateText(info_movie.acteur, 40) || 'Acteur non disponible' }}</p>
@@ -18,6 +21,7 @@
             || 'N/A' }}
           </h3>
         </div>
+
       </div>
     </div>
   </div>
@@ -40,9 +44,10 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 p {
   font-size: 12px;
+  font-family: 'Raleway', sans-serif;
 }
 
 h2 {
@@ -55,11 +60,13 @@ h2 {
 
 h3 {
   font-size: 13px;
+  font-family: 'Raleway', sans-serif;
 }
 
 .movie--card {
   border: 2px solid #d44e00;
-  background-color: white;
+  background-color: rgb(39, 39, 39);
+  color: white;
   width: 500px;
   height: 280px;
   margin: 15px;
